@@ -5,10 +5,12 @@ USE manajemen_kas_rt;
 -- Tabel Users (Pengurus)
 CREATE TABLE IF NOT EXISTS users (
     id_user INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     nama VARCHAR(100) NOT NULL,
-    role ENUM('ketua', 'sekretaris', 'bendahara') DEFAULT 'bendahara'
+    role ENUM('ketua', 'sekretaris', 'bendahara') DEFAULT 'bendahara',
+    reset_token VARCHAR(255) DEFAULT NULL,
+    reset_token_expires DATETIME DEFAULT NULL
 );
 
 -- Tabel Warga
@@ -108,7 +110,7 @@ BEGIN
 END$$
 DELIMITER ;
 
--- Seed default user (username: admin, password: admin123)
-INSERT INTO users (username, password, nama, role) 
-VALUES ('admin', '$2y$12$HckDkCX/21vqb68ErfAXDuckzoAlIMHwhcF3fPGzwW74D0g/h8DQO', 'Administrator', 'bendahara')
+-- Seed default user (email: admin@admin.com, password: admin123)
+INSERT INTO users (email, password, nama, role) 
+VALUES ('admin@admin.com', '$2y$12$HckDkCX/21vqb68ErfAXDuckzoAlIMHwhcF3fPGzwW74D0g/h8DQO', 'Administrator', 'bendahara')
 ON DUPLICATE KEY UPDATE id_user=id_user;

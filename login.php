@@ -7,83 +7,82 @@ if (isset($_SESSION['user_id'])) {
 }
 
 $error = '';
+$success = '';
+
+if (isset($_SESSION['reset_success'])) {
+    $success = $_SESSION['reset_success'];
+    unset($_SESSION['reset_success']);
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = trim($_POST['username'] ?? '');
+    $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
 
-    if ($username !== '' && $password !== '') {
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
-        $stmt->execute([$username]);
+    if ($email !== '' && $password !== '') {
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->execute([$email]);
         $user = $stmt->fetch();
 
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id_user'];
-            $_SESSION['username'] = $user['username'];
             $_SESSION['nama'] = $user['nama'];
             $_SESSION['role'] = $user['role'];
 
             header('Location: dashboard.php');
             exit;
         } else {
-            $error = 'Username atau password salah!';
+            $error = 'Email atau password salah!';
         }
     } else {
         $error = 'Semua field harus diisi!';
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login &ndash; Manajemen Kas RT</title>
+    <title>Login - Manajemen Kas RT</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="login-body">
-    <div class="flex min-h-dvh flex-col justify-center px-6 py-12 lg:px-8">
-    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=blue&shade=600" alt="Your Company" class="mx-auto h-10 w-auto" />
-        <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Sign in to your account</h2>
-    </div>
-
-    <?php if ($error): ?>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h2>Manajemen Kas RT/RW</h2>
+                <p>Silakan masuk menggunakan akun pengurus Anda</p>
+            </div>
+            
+            <?php if ($error): ?>
                 <div class="alert alert-danger">
                     <span><?php echo htmlspecialchars($error); ?></span>
                 </div>
             <?php endif; ?>
 
-    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form action="" method="POST" class="space-y-6">
-        <div>
-            <label for="username" class="block text-sm/6 font-medium text-gray-900">Username</label>
-            <div class="mt-2">
-            <input id="username" type="text" name="username" required autocomplete="username" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6" />
-            </div>
-        </div>
-
-        <div>
-            <div class="flex items-center justify-between">
-                <label for="password" class="block text-sm/6 font-medium text-gray-900">Password</label>
-                <div class="text-sm">
-                    <a href="#" class="font-semibold text-blue-600 hover:text-blue-500">Forgot password?</a>
+            <?php if ($success): ?>
+                <div class="alert alert-success">
+                    <span><?php echo htmlspecialchars($success); ?></span>
                 </div>
-            </div>
-            <div class="mt-2">
-                <input id="password" type="password" name="password" required autocomplete="current-password" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6" />
-            </div>
-        </div>
+            <?php endif; ?>
 
-        <div>
-            <button type="submit" class="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">Sign in</button>
-        </div>
-        </form>
+            <form action="" method="POST" class="login-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Masukkan email pengurus" required autocomplete="off">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Masukkan password" required>
+                </div>
 
-        <p class="mt-10 text-center text-sm/6 text-gray-500">&copy; 2026 Cash Management. All Rights Reserved.</p>
-    </div>
+                <a href="forgot_password.php" class="forgot-link">Lupa Password?</a>
+                
+                <button type="submit" class="btn btn-primary btn-block">Masuk ke Sistem</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>

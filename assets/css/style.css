@@ -83,6 +83,21 @@ body {
     box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
 }
 
+.forgot-link {
+    display: block;
+    text-align: right;
+    font-size: 0.85rem;
+    color: #38bdf8;
+    text-decoration: none;
+    margin-top: -12px;
+    margin-bottom: 24px;
+    transition: color 0.3s;
+}
+
+.forgot-link:hover {
+    color: #7dd3fc;
+}
+
 .btn {
     display: inline-block;
     font-weight: 600;

@@ -1,0 +1,9 @@
+Kepada: ryzmdn@gmail.com
+Subjek: Reset Password Akun Kas RT/RW
+
+Halo Rizky,
+Kami menerima permintaan reset password untuk akun Anda. Silakan klik tautan di bawah ini untuk mereset password Anda:
+http://localhost/cash-management/reset_password.php?token=7040a81a4e0444d723528e74bf5e8246df30185b0d76a9e1d746ca58b75e0ae1
+
+Tautan ini akan kedaluwarsa dalam 1 jam.
+Jika Anda tidak meminta reset password, abaikan email ini.
