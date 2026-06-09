@@ -1,6 +1,8 @@
-CREATE DATABASE IF NOT EXISTS manajemen_kas_rt;
+DROP DATABASE IF EXISTS manajemen_kas_rt;
+CREATE DATABASE manajemen_kas_rt;
 USE manajemen_kas_rt;
 
+-- Tabel Users (Pengurus)
 CREATE TABLE IF NOT EXISTS users (
     id_user INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
@@ -9,6 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
     role ENUM('ketua', 'sekretaris', 'bendahara') DEFAULT 'bendahara'
 );
 
+-- Tabel Warga
 CREATE TABLE IF NOT EXISTS warga (
     id_warga INT AUTO_INCREMENT PRIMARY KEY,
     no_kk VARCHAR(16) NOT NULL,
@@ -19,6 +22,7 @@ CREATE TABLE IF NOT EXISTS warga (
     status_aktif ENUM('aktif', 'pindah', 'meninggal') DEFAULT 'aktif'
 );
 
+-- Tabel Kategori Iuran
 CREATE TABLE IF NOT EXISTS kategori_iuran (
     id_kategori INT AUTO_INCREMENT PRIMARY KEY,
     nama_iuran VARCHAR(50) NOT NULL,
@@ -26,6 +30,7 @@ CREATE TABLE IF NOT EXISTS kategori_iuran (
     nominal_default DECIMAL(10,2) DEFAULT 0.00
 );
 
+-- Tabel Kas Masuk
 CREATE TABLE IF NOT EXISTS kas_masuk (
     id_masuk INT AUTO_INCREMENT PRIMARY KEY,
     id_warga INT,
@@ -37,6 +42,7 @@ CREATE TABLE IF NOT EXISTS kas_masuk (
     FOREIGN KEY (id_kategori) REFERENCES kategori_iuran(id_kategori)
 );
 
+-- Tabel Kas Keluar
 CREATE TABLE IF NOT EXISTS kas_keluar (
     id_keluar INT AUTO_INCREMENT PRIMARY KEY,
     tanggal_keluar DATE NOT NULL,
@@ -45,6 +51,7 @@ CREATE TABLE IF NOT EXISTS kas_keluar (
     penanggung_jawab VARCHAR(100) NOT NULL
 );
 
+-- Trigger: Cek Nominal Minus
 DELIMITER $$
 CREATE TRIGGER before_kas_masuk_insert
 BEFORE INSERT ON kas_masuk
@@ -57,6 +64,7 @@ BEGIN
 END$$
 DELIMITER ;
 
+-- Procedure: Input Kas Masuk Cepat
 DELIMITER $$
 CREATE PROCEDURE TambahKasMasuk(
     IN p_nik VARCHAR(16),
@@ -82,6 +90,7 @@ BEGIN
 END$$
 DELIMITER ;
 
+-- Function: Hitung Saldo Total
 DELIMITER $$
 CREATE FUNCTION HitungSaldoTotal()
 RETURNS DECIMAL(10,2)
@@ -99,6 +108,7 @@ BEGIN
 END$$
 DELIMITER ;
 
+-- Seed default user (username: admin, password: admin123)
 INSERT INTO users (username, password, nama, role) 
-VALUES ('admin', '$2y$10$c7M59Wylw3.EUpIhyT2wI.09mHh48.330u3K3D6vQkK1b7F0hLp3G', 'Administrator', 'bendahara')
+VALUES ('admin', '$2y$12$HckDkCX/21vqb68ErfAXDuckzoAlIMHwhcF3fPGzwW74D0g/h8DQO', 'Administrator', 'bendahara')
 ON DUPLICATE KEY UPDATE id_user=id_user;
