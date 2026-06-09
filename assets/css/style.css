@@ -465,3 +465,80 @@ select.form-control option {
         grid-template-columns: 1fr;
     }
 }
+
+/* Printing styles */
+@media print {
+    body {
+        background: #fff !important;
+        color: #000 !important;
+    }
+    
+    .sidebar,
+    .content-header,
+    .btn,
+    .form-actions,
+    form,
+    .no-print {
+        display: none !important;
+    }
+    
+    .app-container {
+        display: block !important;
+    }
+    
+    .main-content {
+        background: #fff !important;
+        padding: 0 !important;
+        display: block !important;
+    }
+    
+    .content-body {
+        padding: 0 !important;
+    }
+    
+    .card {
+        background: #fff !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        color: #000 !important;
+        margin-bottom: 0 !important;
+    }
+    
+    .card-title {
+        color: #000 !important;
+        font-size: 1.6rem;
+        margin-bottom: 20px;
+        text-align: center;
+        width: 100%;
+        display: block;
+    }
+    
+    .table {
+        color: #000 !important;
+        width: 100% !important;
+    }
+    
+    .table th {
+        background: #f1f5f9 !important;
+        color: #000 !important;
+        border-bottom: 2px solid #000 !important;
+        font-weight: bold !important;
+    }
+    
+    .table td {
+        color: #000 !important;
+        border-bottom: 1px solid #cbd5e1 !important;
+    }
+    
+    .stat-card {
+        border: 1px solid #000 !important;
+        background: #fff !important;
+        color: #000 !important;
+        box-shadow: none !important;
+    }
+    
+    .stat-label, .stat-value, .stat-desc {
+        color: #000 !important;
+    }
+}
