@@ -92,6 +92,39 @@ BEGIN
 END$$
 DELIMITER ;
 
+-- Function: Hitung Saldo Total
+DELIMITER $$
+CREATE FUNCTION HitungSaldoTotal()
+RETURNS DECIMAL(10,2)
+DETERMINISTIC
+BEGIN
+    DECLARE t_masuk DECIMAL(10,2) DEFAULT 0.00;
+    DECLARE t_keluar DECIMAL(10,2) DEFAULT 0.00;
+    DECLARE saldo_akhir DECIMAL(10,2) DEFAULT 0.00;
+
+    SELECT IFNULL(SUM(jumlah), 0) INTO t_masuk FROM kas_masuk;
+    SELECT IFNULL(SUM(jumlah), 0) INTO t_keluar FROM kas_keluar;
+
+    SET saldo_akhir = t_masuk - t_keluar;
+    RETURN saldo_akhir;
+END$$
+DELIMITER ;
+
+-- View: Laporan Kas Masuk Lengkap (Menggunakan JOIN)
+CREATE OR REPLACE VIEW v_kas_masuk AS
+SELECT 
+    km.id_masuk,
+    km.tanggal_bayar,
+    w.nama AS nama_warga,
+    w.nik AS nik_warga,
+    w.no_rumah,
+    ki.nama_iuran,
+    km.jumlah,
+    km.keterangan
+FROM kas_masuk km
+LEFT JOIN warga w ON km.id_warga = w.id_warga
+LEFT JOIN kategori_iuran ki ON km.id_kategori = ki.id_kategori;
+
 
 -- Seed default user (email: admin@admin.com, password: admin123)
 INSERT INTO users (email, password, nama, role) 

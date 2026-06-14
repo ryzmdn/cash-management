@@ -3,11 +3,7 @@ require_once 'config/auth_check.php';
 
 // Fetch Total Saldo from UDF
 try {
-    $saldoStmt = $pdo->query("
-        SELECT 
-            (SELECT IFNULL(SUM(jumlah), 0) FROM kas_masuk) - 
-            (SELECT IFNULL(SUM(jumlah), 0) FROM kas_keluar) AS saldo_sekarang
-    ");
+    $saldoStmt = $pdo->query("SELECT HitungSaldoTotal() AS saldo_sekarang");
     $saldoResult = $saldoStmt->fetch();
     $saldoTotal = floatval($saldoResult['saldo_sekarang'] ?? 0);
 } catch (PDOException $e) {
