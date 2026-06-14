@@ -110,6 +110,22 @@ BEGIN
 END$$
 DELIMITER ;
 
+-- View: Laporan Kas Masuk Lengkap (Menggunakan JOIN)
+CREATE OR REPLACE VIEW v_kas_masuk AS
+SELECT 
+    km.id_masuk,
+    km.tanggal_bayar,
+    w.nama AS nama_warga,
+    w.nik AS nik_warga,
+    w.no_rumah,
+    ki.nama_iuran,
+    km.jumlah,
+    km.keterangan
+FROM kas_masuk km
+LEFT JOIN warga w ON km.id_warga = w.id_warga
+LEFT JOIN kategori_iuran ki ON km.id_kategori = ki.id_kategori;
+
+
 -- Seed default user (email: admin@admin.com, password: admin123)
 INSERT INTO users (email, password, nama, role) 
 VALUES ('admin@admin.com', '$2y$12$HckDkCX/21vqb68ErfAXDuckzoAlIMHwhcF3fPGzwW74D0g/h8DQO', 'Administrator', 'bendahara')
