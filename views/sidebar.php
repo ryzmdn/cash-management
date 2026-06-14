@@ -21,5 +21,8 @@
         <a href="laporan.php" class="menu-item <?= basename($_SERVER['PHP_SELF']) == 'laporan.php' ? 'active' : '' ?>">
             <span>Laporan Keuangan</span>
         </a>
+        <a href="backup.php" class="menu-item <?= basename($_SERVER['PHP_SELF']) == 'backup.php' ? 'active' : '' ?>">
+            <span>Backup & Recovery</span>
+        </a>
     </nav>
 </aside>

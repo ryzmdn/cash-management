@@ -92,23 +92,6 @@ BEGIN
 END$$
 DELIMITER ;
 
--- Function: Hitung Saldo Total
-DELIMITER $$
-CREATE FUNCTION HitungSaldoTotal()
-RETURNS DECIMAL(10,2)
-DETERMINISTIC
-BEGIN
-    DECLARE t_masuk DECIMAL(10,2) DEFAULT 0.00;
-    DECLARE t_keluar DECIMAL(10,2) DEFAULT 0.00;
-    DECLARE saldo_akhir DECIMAL(10,2) DEFAULT 0.00;
-
-    SELECT IFNULL(SUM(jumlah), 0) INTO t_masuk FROM kas_masuk;
-    SELECT IFNULL(SUM(jumlah), 0) INTO t_keluar FROM kas_keluar;
-
-    SET saldo_akhir = t_masuk - t_keluar;
-    RETURN saldo_akhir;
-END$$
-DELIMITER ;
 
 -- Seed default user (email: admin@admin.com, password: admin123)
 INSERT INTO users (email, password, nama, role) 
