@@ -75,7 +75,7 @@ include 'views/header.php';
             </div>
             <div class="form-group">
                 <label for="jumlah">Jumlah Setoran (Rp)</label>
-                <input type="number" id="jumlah" name="jumlah" class="form-control" min="1" step="1000" placeholder="Masukkan jumlah pembayaran" required>
+                <input type="number" id="jumlah" name="jumlah" class="form-control" min="1" step="any" placeholder="Masukkan jumlah pembayaran" required>
             </div>
         </div>
 
